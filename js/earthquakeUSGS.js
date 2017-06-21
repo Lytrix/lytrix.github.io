@@ -36,10 +36,12 @@
 
     // Download the data
     myConnector.getData = function(table, doneCallback) {
-        $.ajax(xhrFields: {
+        $.ajax({
+        url:"http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
+        xhrFields: {
           withCredentials: true
-        },
-        url:"http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson"}.done(function(resp) {
+          }
+        }).done(function(resp) {
             var feat = resp.features,
                 tableData = [];
 
