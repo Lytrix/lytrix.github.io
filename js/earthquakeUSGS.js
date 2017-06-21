@@ -70,4 +70,4 @@
             tableau.submit(); // This sends the connector object to Tableau
         });
     });
-})();
+});
