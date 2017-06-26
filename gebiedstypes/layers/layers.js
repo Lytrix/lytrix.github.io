@@ -1,12 +1,12 @@
 var baseLayer = new ol.layer.Group({
-    'title': 'Base maps',
+    'title': '',
     layers: [
 new ol.layer.Tile({
     'title': 'Topografie',
     'type': 'base',
-    source: new ol.source.XYZ({
-        url: 'https://t1.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png',
-        attributions: [new ol.Attribution({html: '&copy; <a href="https://api.data.amsterdam.nl">Datapunt</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'})]
+    source: new ol.source.XYZ({   
+        url: 'https://t{1-4}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png',
+        attributions: [new ol.Attribution({html: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'})]
     })
 })
 ]
