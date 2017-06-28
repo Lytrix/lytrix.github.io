@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<script src="js/angular_1.4.8/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl"> 
+<p>Typ een adres:<input type="text" ng-model="name" placeholder="Adres, postcode, bouwblok"></p>
+<p>{{result}}</p>
+<div ng-repeat="item in result.data[0].content"><a href="https://api.datapunt.amsterdam.nl/{{item.uri}}">{{item._display}}</a></div>
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $scope.$watch('name', function() {
+    getTypeAhead();
+  });
+
+ function getTypeAhead(){
+   $http.get("https://api.data.amsterdam.nl/atlas/typeahead/bag/?q="+ $scope.name)
+     .then(function(response) {
+        $scope.result = formatData(response.data);
+     });
+   }
+   
+   function formatData (categories) {
+            var suggestionIndex = 0,
+                numberOfResults = 0;
+
+            categories.forEach(function (category) {
+                category.content.map(function (suggestion) {
+                    suggestion.index = suggestionIndex++;
+                    numberOfResults++;
+
+                    return suggestion;
+                });
+            });
+
+            return {
+                count: numberOfResults,
+                data: categories
+            };
+        }
+
+   
+});
+</script>
+
+</body>
+</html>
+

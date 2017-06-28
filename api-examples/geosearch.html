@@ -1,0 +1,69 @@
+ 
+<!DOCTYPE html> 
+<html>
+  <script src="js/angular_1.4.8/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl"> 
+  <form novalidate>
+    <p>Longitude:<input type="text" ng-model="location.lon" value="52.3954569" placeholder="e.g. 52.3954569"></p>
+    <p>Latitude:<input type="text" ng-model="location.lat" value="4.9067956" placeholder="e.g. 4.9067956"></p>
+    <p>Straal:<input type="text" ng-model="location.radius" value="50" placeholder="e.g. 50"></p>
+   <input type="submit" id="submit" ng-click="save(location)" value="Haal Adres op" />
+  </form>
+
+  <ul>
+    <li>Adres: {{result1.openbare_ruimte._display}} {{result1.huisnummer}}</li>
+    <li>Stadsdeel naam: {{result1.stadsdeel.naam}}</li>
+    <li>Stadsdeel Code: {{result1.stadsdeel.code}}</li>
+    <li>GGW naam: {{result1.gebiedsgerichtwerken.naam}}</li>
+    <li>GGW code: {{result1.gebiedsgerichtwerken.code}}</li>
+    <li>Buurtcombinatie naam: {{result1.buurtcombinatie.naam}}</li>
+    <li>Buurtcombinatie code: {{result1.buurtcombinatie.vollcode}}</li>
+    <li>Buurt naam: {{result1.buurt.naam}}</li>
+    <li>Buurt code: {{result1.buurt.code}}</li>
+  </ul>
+  <p><b>Opgevraagde url datapunt:</b> {{test}}</p>
+  <p>{{location | json}}</p>
+  <!-- <p>{{master | json}}</p>  -->
+  <p><b>Antwoord van Datapunt:</b></p>
+  <p>{{result}}</p>
+  <div ng-repeat="item in result.data[0].content"><a href="{{item.uri}}">{{item._display}}</a></div>
+</div>
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', function($scope, $http) {
+  	    $scope.master = {};
+   
+          $scope.save= function(location) {
+              $scope.master = angular.copy(location);
+             url = "https://api.data.amsterdam.nl/bag/nummeraanduiding/?locatie=" + location.lon + "," + location.lat + "," + location.radius + "&detailed=1";
+             $scope.test = url;
+            	getTypeAhead(url);
+          };
+   
+          $scope.reset = function() {
+              $scope.location = angular.copy($scope.master);
+          };
+   
+          $scope.reset();
+
+  	
+   function getTypeAhead(){
+     $http.get(url)
+       .then(function(response) {
+          $scope.result = response.data;
+          $scope.result1 = $scope.result.results[0];
+       });
+     }  
+
+     
+  });
+
+</script>
+
+
+
+</body>
+</html>
+
