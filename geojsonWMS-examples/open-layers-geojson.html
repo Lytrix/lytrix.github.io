@@ -6,15 +6,17 @@
         
         <style>
             .map {
-                height: 400px;
+                height: 600px;
                 width: 100%;
             }
+            body { font-family: Verdana, Arial }
         </style>
         <title>Afvalbakken BGT en luchtfoto WMS</title>
     </head>
     <body>
         <h2>Afvalbakken BGT geoJSON en luchtfoto WMS</h2>
         <div id="map" class="map"></div>
+        <div><p><a href="https://github.com/Lytrix/lytrix.github.io/tree/master/geojsonWMS-examples">Github source code</a></p></div>
         <script type="text/javascript">
 
             geoJsonAfvalbakken = 'https://map.data.amsterdam.nl/maps/bgtobjecten?REQUEST=GetFeature&SERVICE=WFS&VERSION=1.1.0&TYPENAME=BGTPLUS_BAK_afval_apart_plaats&outputFormat=geoJson&SRSNAME=EPSG:4326'
