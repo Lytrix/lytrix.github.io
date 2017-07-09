@@ -1,0 +1,138 @@
+<html>
+	<head>	
+		<title>Load WFS features depending zoom level using BBOX</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+		<link rel="stylesheet" href="css/leaflet.css" />
+		<script src="js/leaflet.js"></script>
+		<script src="js/jquery-2.2.4.min.js"></script>
+	</head>
+
+<style>
+	#map { width: 800px; height: 500px; }
+	.legend {
+			color: #555;
+			padding: 5px 5px;
+			font: 12px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+		}
+		.legend ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			clear: both;
+		}
+		.legend li {
+			display: inline-block;
+			width: 30px;
+			height: 22px;
+		}
+		.legend .min {
+			float: left;
+			padding-bottom: 5px;
+		}
+		.legend .max {
+			float: right;
+		}
+</style>
+
+<body>
+	<div id='map'></div>
+</body>
+<script>
+    var start_at_zoom = 13;
+    var zoomLimit = true;
+	var geojsonMarkerStyle = {
+	    radius: 3,
+	    fillColor: "#ff7800",
+	    color: "#000",
+	    weight: .5,
+	    opacity: 1,
+	    fillOpacity: 0.8
+	};
+	var map = L.map('map', {
+                      maxBounds: [
+                          [52.269470, 4.72876], //southWest
+                          [52.4322, 5.07916] //northEast
+                      ]
+                  })
+                  .setView([52.379189, 4.899431], 11);		
+	// Add basemap
+	var baseLayerOptions = {
+	                  minZoom: 11,
+	                  maxZoom: 21,
+	                  subdomains: ['t1', 't2', 't3', 't4'],
+	                  attribution: '&copy; <a href="http://api.datapunt.amsterdam.nl">Datapunt</a>',
+	                  fadeAnimation: false
+	              };
+	var baseLayers = { 'Topografie': L.tileLayer('https://{s}.datapunt.amsterdam.nl/topo_google/{z}/{x}/{y}.png', baseLayerOptions)};
+	baseLayers['Topografie'].addTo(map);
+
+		
+	function getGeoJSONwithBBOX() {
+		var geoJsonURL = 'https://map.data.amsterdam.nl/maps/bgtobjecten';
+        var defaultParameters = {
+            service: 'WFS',
+            version: '1.1.0',
+            request: 'getFeature',
+            typeName: 'BGTPLUS_BAK_afval_apart_plaats',
+            maxFeatures: 3000,
+            outputFormat: 'geoJson',
+            srsName: 'EPSG:4326'
+		};
+
+	    var customParams = {
+	        bbox: map.getBounds().toBBoxString()
+      		};
+        var parameters = L.Util.extend(defaultParameters, customParams);
+        // Show send WFS request in console 
+        console.log(geoJsonURL + L.Util.getParamString(parameters));
+        $.ajax({
+            jsonp: true,
+            url: geoJsonURL + L.Util.getParamString(parameters),
+            dataType: 'json',
+            jsonpCallback: 'getJson',
+            success: loadGeoJson
+       		});
+	}
+
+	function loadGeoJson(dataGeoJson) {
+	   	geojsonLayer = L.geoJson(
+		dataGeoJson, {
+			pointToLayer: function (feature, latlng) {
+			    return L.circleMarker(latlng, geojsonMarkerStyle);
+			}
+		}).addTo(map);			
+	}
+
+	function reload_wfs() {
+		mapCenter = map.getCenter();
+		console.log(mapCenter);
+		mapZoom  = map.getZoom();
+	    if (map.getZoom() > start_at_zoom && zoomLimit === true) {
+	    	try { geojsonLayer.clearLayers();
+	    		  $( ".legend" ).remove();
+	    	}
+	    	catch (e) {}
+	        getGeoJSONwithBBOX();
+	    } else if (zoomLimit === false){
+	    	try { geojsonLayer.clearLayers();
+	    		  $( ".legend" ).remove();
+	    	}
+	    	catch (e) {}
+	        getGeoJSONwithBBOX();
+	    } else {
+	        alert("please zoom in to see the polygons!");
+	    	try { geojsonLayer.clearLayers();}
+	    	catch (e) {}
+	    	}
+	}
+
+	// Update getGeoJSONwithBBOX with new BBOX on panning map
+	map.on('moveend', reload_wfs);
+</script>
+</html>
