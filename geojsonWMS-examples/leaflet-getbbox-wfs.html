@@ -42,6 +42,7 @@
 
 <body>
 	<div id='map'></div>
+	<div>Zoom in to see the geoJson points</div>
 </body>
 <script>
     var start_at_zoom = 13;
@@ -60,7 +61,7 @@
                           [52.4322, 5.07916] //northEast
                       ]
                   })
-                  .setView([52.379189, 4.899431], 11);		
+                  .setView([52.379189, 4.899431], 12);		
 	// Add basemap
 	var baseLayerOptions = {
 	                  minZoom: 11,
@@ -131,6 +132,8 @@
 	    	catch (e) {}
 	    	}
 	}
+
+
 
 	// Update getGeoJSONwithBBOX with new BBOX on panning map
 	map.on('moveend', reload_wfs);
