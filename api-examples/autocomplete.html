@@ -6,7 +6,7 @@
 <div ng-app="myApp" ng-controller="myCtrl"> 
 <p>Typ een adres:<input type="text" ng-model="name" placeholder="Adres, postcode, bouwblok"></p>
 <p>{{result}}</p>
-<div ng-repeat="item in result.data[0].content"><a href="https://api.datapunt.amsterdam.nl/{{item.uri}}">{{item._display}}</a></div>
+<div ng-repeat="item in result.data[0].content"><a href="https://api.data.amsterdam.nl/{{item.uri}}">{{item._display}}</a></div>
 </div>
 
 <script>
