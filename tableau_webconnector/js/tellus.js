@@ -258,7 +258,7 @@
       getPage(1);
       $.when.apply($, promises).then(function(){
         // loadAPI(Math.ceil(totalcount / params.page_size));
-        loadApi(10);
+        loadAPI(10);
       });
     }
 
