@@ -106,7 +106,7 @@
     }];
 
     var tellustotaaluurdagTable = {
-      id: "tellustotaaluurdag",
+      id: "tellusdata_totaal_uur_dag",
       alias: "Tellus Totaal per Uur per Dag",
       columns: tellus_totaal_uur_dag_cols,
       endPoint: "https://acc.api.data.amsterdam.nl/tellus/tellusdata_totaal_uur_dag/"
@@ -168,7 +168,8 @@
 
     var page = 1;
     // var apiCall = window.auth.API_ROOT + table.endPoint;
-    var apiCall = table.tableInfo.endPoint;
+    // var apiCall = table.tableInfo.endPoint;
+    var apiCall = "https://api.data.amsterdam.nl/tellus/"
     console.log(apiCall);
     var feat = [];
     var promises = [];
@@ -183,7 +184,7 @@
       //  headers : { "Authorization": tableau.password }
       //});
 
-      promises.push($.getJSON(apiCall, params, function(resp) {
+      promises.push($.getJSON(apiCall+table.tableInfo.id, params, function(resp) {
         
         totalcount = resp.count;
         feat = resp.results;
