@@ -56,7 +56,7 @@
       id: "tellus",
       alias: "Tellus Locaties",
       columns: tellus_cols,
-      endPoint: "https://acc.api.data.amsterdam.nl/tellus/tellus"
+      endPoint: "https://acc.api.data.amsterdam.nl/tellus/tellus/"
     };
 
     // Tellus Richtingen
@@ -164,9 +164,12 @@
       "page_size": 1000,
       "page": 1
     };
-    console.log(table)
+    console.log(table);
+
+    var page = 1;
     // var apiCall = window.auth.API_ROOT + table.endPoint;
     var apiCall = table.tableInfo.endPoint;
+    console.log(apiCall);
     var feat = [];
     var promises = [];
     var totalcount = 0;
@@ -179,12 +182,12 @@
      // $.ajaxSetup({
       //  headers : { "Authorization": tableau.password }
       //});
-    
+
       promises.push($.getJSON(apiCall, params, function(resp) {
         
         totalcount = resp.count;
         feat = resp.results;
-
+        console.log(apiCall)
         var tableData = [];
         var i = 0;
         var row = [];
