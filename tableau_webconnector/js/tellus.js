@@ -245,7 +245,6 @@
     
     function loadAPI(totalpages){
       var page = 2;
-      //while (page <= 3){
       while (page <= totalpages){
         // get the next page.
         getPage(page);
@@ -257,8 +256,8 @@
       // load the fist page
       getPage(1);
       $.when.apply($, promises).then(function(){
-        // loadAPI(Math.ceil(totalcount / params.page_size));
-        loadAPI(10);
+        loadAPI(Math.ceil(totalcount / params.page_size));
+        // loadAPI(10); // Tester
       });
     }
 
