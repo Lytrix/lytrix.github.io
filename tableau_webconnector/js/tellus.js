@@ -245,7 +245,7 @@
     
     function loadAPI(totalpages){
       var page = 2;
-      while (page <= totalpages){
+      while (page <= 3){
       // while (page <= totalpages){
         // get the next page.
         getPage(page);
