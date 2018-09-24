@@ -91,10 +91,10 @@
       id: "richting",
       alias: "Richting",
       dataType: tableau.dataTypeEnum.string
-    },{
-      id: "dag_uur_gemeten",
-      alias: "Dag uur gemeten",
-      dataType: tableau.dataTypeEnum.string
+    //},{
+    //  id: "dag_uur_gemeten",
+    //  alias: "Dag uur gemeten",
+    //  dataType: tableau.dataTypeEnum.string
     },{
       id: "dag_type",
       alias: "Dag type",
@@ -225,13 +225,13 @@
               tableData.push(row);
             }
           }
-          if (table.tableInfo.id == "tellustotaaluurdag") {
+          if (table.tableInfo.id == "tellusdata_totaal_uur_dag") {
             for (i = 0, len = feat.length; i < len; i++) {
               row = {
                 "id": feat[i].id,
                 "tellus": feat[i].richting.tellus,
                 "richting": feat[i].richting.richting,
-                "dag_uur_gemeten": feat[i].dag_uur_gemeten,
+                //"dag_uur_gemeten": feat[i].dag_uur_gemeten,
                 "dag_type": feat[i].dag_type,
                 "aantal": feat[i].aantal
               };
@@ -262,7 +262,7 @@
 
     slurpAPI();
 
-        // wait until all pages are loaded.
+    // wait until all pages are loaded.
     $.when.apply($, promises).then(function(){
       // we are done loading out api
       doneCallback();
