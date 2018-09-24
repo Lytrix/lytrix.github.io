@@ -91,10 +91,10 @@
       id: "richting",
       alias: "Richting",
       dataType: tableau.dataTypeEnum.string
-    //},{
-    //  id: "dag_uur_gemeten",
-    //  alias: "Dag uur gemeten",
-    //  dataType: tableau.dataTypeEnum.string
+    },{
+      id: "dag_uur_gemeten",
+      alias: "Dag uur gemeten",
+      dataType: tableau.dataTypeEnum.string
     },{
       id: "dag_type",
       alias: "Dag type",
@@ -161,7 +161,7 @@
     var params = {
       "format": "json",
       "detailed": 1,
-      "page_size": 1000,
+      "page_size": 500,
       "page": 1
     };
     console.log(table);
@@ -231,7 +231,7 @@
                 "id": feat[i].id,
                 "tellus": feat[i].richting.tellus,
                 "richting": feat[i].richting.richting,
-                //"dag_uur_gemeten": feat[i].dag_uur_gemeten,
+                "dag_uur_gemeten": feat[i].dag_uur_gemeten,
                 "dag_type": feat[i].dag_type,
                 "aantal": feat[i].aantal
               };
@@ -245,8 +245,8 @@
     
     function loadAPI(totalpages){
       var page = 2;
-      while (page <= 3){
-      // while (page <= totalpages){
+      //while (page <= 3){
+      while (page <= totalpages){
         // get the next page.
         getPage(page);
         page += 1;
@@ -257,7 +257,8 @@
       // load the fist page
       getPage(1);
       $.when.apply($, promises).then(function(){
-        loadAPI(Math.ceil(totalcount / params.page_size));
+        // loadAPI(Math.ceil(totalcount / params.page_size));
+        loadApi(10);
       });
     }
 
