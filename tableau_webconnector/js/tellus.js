@@ -169,7 +169,7 @@
     var page = 1;
     // var apiCall = window.auth.API_ROOT + table.endPoint;
     // var apiCall = table.tableInfo.endPoint;
-    var apiCall = "https://api.data.amsterdam.nl/tellus/"
+    var apiCall = "https://acc.api.data.amsterdam.nl/tellus/"
     console.log(apiCall);
     var feat = [];
     var promises = [];
